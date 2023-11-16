@@ -26,4 +26,17 @@ class User {
 
         return false;
     }
+
+    public function check_login() {
+        $query = "SELECT * FROM " . $this->user_table . " WHERE email=?";
+        $stmt = $this->connection->prepare($query);
+
+        $stmt->bindParam(1, $this->email);
+
+        if ($stmt->execute()) {
+            return $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        }
+
+        return [];
+    }
 }
