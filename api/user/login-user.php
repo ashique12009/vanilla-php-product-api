@@ -24,9 +24,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $user_data = $user_object->check_login();
 
         if (password_verify($user_object->password, $user_data['password'])) {
+
+            $payload_info = [
+                'iss' => 'localhost',
+                'iat' => time(),
+                'nbf' => time() + 10,
+                'exp' => time() + 300,
+                'aud' => 'myusers',
+                'data' => [
+                    'id' => $user_data['id'],
+                    'email' => $user_data['email']
+                ]
+            ];
+
+            $secret_key = 'ashique-secret-key';
+
+            $jwt = JWT::encode($payload_info, $secret_key, 'HS256');
+
             http_response_code(200);
             echo json_encode(
-                array('message' => 'User logged in', 'code' => 200)
+                array('message' => 'User logged in', 'jwt' => $jwt, 'code' => 200)
             );
         }
         else {
