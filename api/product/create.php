@@ -25,6 +25,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // get posted data
     $data = json_decode(file_get_contents("php://input"));
 
+    // $all_headers = getallheaders();
+    // echo '<pre>'; 
+    // var_dump($all_headers, $_SERVER['HTTP_AUTHORIZATION'], apache_request_headers());
+    // echo '</pre>';exit;
+    // $data->jwt = $all_headers['Authorization'];
+
     if (!empty($data->jwt)) {
         try {
             $secret_key   = 'ashique-secret-key';
